@@ -1,0 +1,7 @@
+<type>(<scope>): <rövid, tömör leírás>
+
+[opcionális hosszabb leírás – mi változott és miért]
+
+BREAKING CHANGE: <ha van, írd le a törő változást>
+
+Refs: #<issue-szám(ok)>

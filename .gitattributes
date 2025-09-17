@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.md text
+*.java text
+*.yml text
+*.yaml text
+*.json text
+*.properties text
+*.sql text
+*.xml text
+*.gradle text
+docs/** linguist-documentation
