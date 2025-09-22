@@ -3,3 +3,5 @@
 Performance Tracker  backend
 Protection check note
 
+
+_Smoke test:_ branch protection rules active.
