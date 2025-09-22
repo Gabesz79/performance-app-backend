@@ -4,7 +4,16 @@ on:
   pull_request:
     branches: [ "main" ]
   push:
-    branches: [ "main", "ci/**", "feat/**", "fix/**" ]
+    branches:
+      - "main"
+      - "ci/**"
+      - "feat/**"
+      - "fix/**"
+      - "chore/**"
+      - "docs/**"
+      - "repo/**"
+      - "refactor/**"
+  workflow_dispatch:
 
 jobs:
   build:
