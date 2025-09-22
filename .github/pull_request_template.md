@@ -1,17 +1,10 @@
-## Összefoglaló
-Röviden írd le, mit csinál ez a PR és miért.
+﻿## PR checklist
+- [ ] Build zöld (GA uild workflow)
+- [ ] Tesztek lefedve / frissítve
+- [ ] Dokumentáció (README / OpenAPI) frissítve, ha kell
+- [ ] Breaking change? Leírás + migráció
 
-## Változás típusa
-- [ ] feat (új funkció)
-- [ ] fix (hibajavítás)
-- [ ] docs (dokumentáció)
-- [ ] refactor (viselkedés nem változik)
-- [ ] test (tesztek)
-- [ ] chore/ci/build
+## Leírás
+Röviden: mit és miért módosít ez a PR?
 
-## Tesztelés
-- [ ] Lokálisan lefuttattam a buildet/teszteket
-- [ ] Repro-lépések / képernyőfotó
-
-## Kapcsolódó issue(k)
-Fixes #
+## Megjegyzések a reviewernek
