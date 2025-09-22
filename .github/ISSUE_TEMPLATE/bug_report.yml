@@ -1,0 +1,60 @@
+﻿name: Bug report
+description: Report a bug in performance-app-backend
+title: "[bug] <short title>"
+labels: ["bug"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Előzetes ellenőrzések
+      options:
+        - label: Átkerestem a meglévő issue-kat (nincs duplikátum).
+          required: true
+        - label: Tudok minimális reprodukciós lépéseket adni.
+          required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Környezet (Environment)
+      description: OS, Java version, Spring Boot version, Docker/Docker Compose version, DB version, stb.
+      placeholder: "Windows 11, Java 21 (Temurin), Spring Boot 3.x, Docker 27.x, Postgres 16..."
+  - type: textarea
+    id: steps
+    attributes:
+      label: Lépések a reprodukcióhoz
+      description: Írd le pontosan, hogyan lehet előidézni a hibát.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Várt viselkedés
+      placeholder: "Mit kellett volna történjen?"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tényleges viselkedés / hibaüzenet
+      placeholder: "Mi történt valójában? Log-részletek, stacktrace-ek…"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Releváns logok / képernyőképek
+      description: Csatolj részleteket (érzékeny adatokat takard ki).
+      render: shell
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Súlyosság
+      multiple: false
+      options:
+        - low
+        - medium
+        - high
