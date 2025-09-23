@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: performance_db
       POSTGRES_USER: perf_user
-      POSTGRES_PASSWORD: perf_pass
+      POSTGRES_PASSWORD: "Perf_1234!"
     ports:
       - "5432:5432"
     volumes:
@@ -19,3 +19,6 @@ services:
 
 volumes:
   db_data:
+
+
+
