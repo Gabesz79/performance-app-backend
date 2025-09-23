@@ -35,3 +35,43 @@ out/
 
 ### VS Code ###
 .vscode/
+# Dev/Gradle caches
+.gradle/
+.gradle-jdk/
+.gradle-j21/
+
+# Build output
+build/
+out/
+target/
+bin/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs & temp
+logs/
+*.log
+*.tmp
+*.swp
+
+# Local env
+.env
+.env.local
+.env.*.local
+*.local.properties
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Accidental files from earlier attempts
+/JAVA_HOME
+/where
+/Probalom
+/Tipikus
+
+# NOTE: Flyway migr?ci?k maradjanak verzi?zva!
+# (NINCS ignore a src/main/resources/db/ alatt.)
