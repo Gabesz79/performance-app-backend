@@ -18,6 +18,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make gradlew executable & normalize EOL
+        run: |
+          git config core.autocrlf false
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
 
       - name: Validate Gradle Wrapper (non-blocking)
         uses: gradle/wrapper-validation-action@v2
