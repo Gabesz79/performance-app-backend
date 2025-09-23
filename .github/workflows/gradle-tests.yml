@@ -1,0 +1,48 @@
+﻿name: CI - Gradle Tests
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: ci-gradle-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      JAVA_TOOL_OPTIONS: -Djava.net.preferIPv4Stack=true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make gradlew executable & normalize EOL
+        run: |
+          git config core.autocrlf false
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+
+      - name: Validate Gradle Wrapper (non-blocking)
+        uses: gradle/wrapper-validation-action@v2
+        continue-on-error: true
+        timeout-minutes: 3
+
+      - name: Set up Java 21 (Temurin) with Gradle cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Show versions
+        run: |
+          java -version
+          ./gradlew --version
+
+      - name: Run tests
+        run: ./gradlew --no-daemon clean test
