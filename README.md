@@ -5,3 +5,6 @@ Protection check note
 
 
 _Smoke test:_ branch protection rules active.
+## Development Quickstart
+
+See [docs/DEV_QUICKSTART.md](docs/DEV_QUICKSTART.md).
