@@ -1,12 +1,12 @@
 ﻿plugins {
-    id 'org.springframework.boot' version '3.5.6'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
     id 'jacoco'
 }
 
-group = 'hu.performance'              // tetszĹ‘leges; nem kĂ¶telezĹ‘
-version = '0.1.0-SNAPSHOT'
+group = 'hu.performance'
+version = '0.0.0-SNAPSHOT'
 
 java {
     toolchain {
@@ -41,48 +41,10 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql'
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-jacoco {
-    toolVersion = '0.8.12'
 }
 
 jacocoTestReport {
     dependsOn test
-    reports {
-        xml.required = true
-        html.required = true
-        csv.required = false
-    }
-    // Ha kĂ©sĹ‘bb bizonyos csomagokat ki akarsz zĂˇrni a reportbĂłl:
-    // classDirectories.setFrom(
-    //     files(classDirectories.files.collect {
-    //         fileTree(dir: it, exclude: ['**/config/**', '**/dto/**'])
-    //     })
-    // )
 }
-
-jacocoTestCoverageVerification {
-    dependsOn test
-    violationRules {
-        rule {
-            element = 'BUNDLE'
-            // indulĂˇsnak 0%; ha mĂˇr vannak Ă©rdemi tesztek, emeljĂĽk 0.60â€“0.70-re
-            limit { minimum = 0.0 }
-        }
-    }
-    // Ha a reportban kizĂˇrtĂˇl csomagokat, itt is tĂĽkrĂ¶zd ugyanazt:
-    // classDirectories.setFrom(tasks.jacocoTestReport.classDirectories)
-}
-
-check {
-    dependsOn jacocoTestCoverageVerification
-}
-
