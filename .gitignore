@@ -1,8 +1,10 @@
-﻿# Build kimenet
+# Build kimenet
 /build/
 /out/
 /target/
 /.gradle/
+/.gradle-j21/
+/.gradle-jdk/
 
 # IDE
 .idea/
@@ -20,9 +22,3 @@ Thumbs.db
 
 # Backup
 *.bak
-# Extra helyi cache mappák
-/.gradle-j21/
-/.gradle-jdk/
-# Helyi helper mappák
-/_snapshot_*/
-/_keyfiles/

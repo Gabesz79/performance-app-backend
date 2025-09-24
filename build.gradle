@@ -1,11 +1,11 @@
-plugins {
+﻿plugins {
     id 'org.springframework.boot' version '3.5.6'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
     id 'jacoco'
 }
 
-group = 'hu.performance'              // tetszőleges; nem kötelező
+group = 'hu.performance'              // tetszĹ‘leges; nem kĂ¶telezĹ‘
 version = '0.1.0-SNAPSHOT'
 
 java {
@@ -25,29 +25,20 @@ configurations {
 }
 
 dependencies {
-    // --- Spring starters ---
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator' // hasznos health/info/metrics
-
-    // --- DB & migráció ---
     implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-database-postgresql'
-    runtimeOnly   'org.postgresql:postgresql'
 
-    // (opcionális dev/test H2 – ha kell)
-    testRuntimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
 
-    // --- Kényelmi cuccok ---
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // --- Teszt ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // Testcontainers majd külön PR-ben:
-    // testImplementation 'org.testcontainers:junit-jupiter'
-    // testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -70,7 +61,7 @@ jacocoTestReport {
         html.required = true
         csv.required = false
     }
-    // Ha később bizonyos csomagokat ki akarsz zárni a reportból:
+    // Ha kĂ©sĹ‘bb bizonyos csomagokat ki akarsz zĂˇrni a reportbĂłl:
     // classDirectories.setFrom(
     //     files(classDirectories.files.collect {
     //         fileTree(dir: it, exclude: ['**/config/**', '**/dto/**'])
@@ -83,14 +74,15 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = 'BUNDLE'
-            // indulásnak 0%; ha már vannak érdemi tesztek, emeljük 0.60–0.70-re
+            // indulĂˇsnak 0%; ha mĂˇr vannak Ă©rdemi tesztek, emeljĂĽk 0.60â€“0.70-re
             limit { minimum = 0.0 }
         }
     }
-    // Ha a reportban kizártál csomagokat, itt is tükrözd ugyanazt:
+    // Ha a reportban kizĂˇrtĂˇl csomagokat, itt is tĂĽkrĂ¶zd ugyanazt:
     // classDirectories.setFrom(tasks.jacocoTestReport.classDirectories)
 }
 
 check {
     dependsOn jacocoTestCoverageVerification
 }
+
