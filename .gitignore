@@ -20,3 +20,6 @@ Thumbs.db
 
 # Backup
 *.bak
+# Extra helyi cache mappák
+/.gradle-j21/
+/.gradle-jdk/
