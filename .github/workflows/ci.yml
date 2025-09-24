@@ -3,39 +3,26 @@ name: build
 on:
   pull_request:
     branches: [ "main" ]
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '21'
-
-      - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          cache-read-only: false
+          cache: gradle
 
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build with Gradle (tests on)
-        run: ./gradlew clean build
-
-      - name: Upload test reports (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            **/build/test-results/test/*.xml
-            **/build/reports/tests/test/**
+      # Build gyorsan, tesztek nélkül (a tesztek külön workflow-ban futnak)
+      - name: Gradle build (no tests)
+        run: ./gradlew --no-daemon -x test build
