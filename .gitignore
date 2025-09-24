@@ -1,4 +1,4 @@
-﻿# Build
+﻿# Build kimenet
 /build/
 /out/
 /target/
@@ -9,7 +9,7 @@
 *.iml
 .vscode/
 
-# Logs/temp
+# Log/Temp
 *.log
 *.tmp
 *.swp
