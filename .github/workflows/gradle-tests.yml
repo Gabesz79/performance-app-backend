@@ -1,4 +1,4 @@
-﻿name: CI - Gradle Tests
+name: CI - Gradle Tests
 
 on:
   pull_request:

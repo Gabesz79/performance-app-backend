@@ -1,4 +1,4 @@
-﻿name: CodeQL
+name: CodeQL
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: "0 3 * * 1"  # heti hétfő 03:00 UTC
+    - cron: "0 3 * * 1"  # heti hĂ©tfĹ‘ 03:00 UTC
 
 jobs:
   analyze:

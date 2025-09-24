@@ -1,4 +1,4 @@
-﻿name: Feature request
+name: Feature request
 description: Suggest an idea or improvement
 title: "[feat] <short title>"
 labels: ["enhancement"]
@@ -6,30 +6,30 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Probléma leírása
-      description: Milyen problémát old meg az ötlet?
+      label: ProblĂ©ma leĂ­rĂˇsa
+      description: Milyen problĂ©mĂˇt old meg az Ă¶tlet?
       placeholder: "Amikor ... akkor ..."
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Javasolt megoldás
-      placeholder: "Röviden a megoldás: ..."
+      label: Javasolt megoldĂˇs
+      placeholder: "RĂ¶viden a megoldĂˇs: ..."
     validations:
       required: true
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatívák, amiket fontolgattál
+      label: AlternatĂ­vĂˇk, amiket fontolgattĂˇl
   - type: textarea
     id: acceptance
     attributes:
-      label: Elfogadási kritériumok
+      label: ElfogadĂˇsi kritĂ©riumok
       placeholder: |
         - [ ] ...
         - [ ] ...
   - type: textarea
     id: context
     attributes:
-      label: További kontextus / képernyőképek
+      label: TovĂˇbbi kontextus / kĂ©pernyĹ‘kĂ©pek
