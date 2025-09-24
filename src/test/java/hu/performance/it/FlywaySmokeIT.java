@@ -1,4 +1,4 @@
-﻿package hu.performance.it;
+package hu.performance.it;
 
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,17 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @Testcontainers
-@SpringBootTest
+@SpringBootTest(classes = com.gabesz79.performance_app_backend.PerformanceAppBackendApplication.class)
 @AutoConfigureTestDatabase(replace = NONE)
 class FlywaySmokeIT {
 
@@ -28,29 +33,41 @@ class FlywaySmokeIT {
             .withReuse(false);
 
     @DynamicPropertySource
-    static void overrideProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+    static void overrideProps(DynamicPropertyRegistry r) {
+        r.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+        r.add("spring.datasource.url", postgres::getJdbcUrl);
+        r.add("spring.datasource.username", postgres::getUsername);
+        r.add("spring.datasource.password", postgres::getPassword);
 
-        registry.add("spring.flyway.url", postgres::getJdbcUrl);
-        registry.add("spring.flyway.user", postgres::getUsername);
-        registry.add("spring.flyway.password", postgres::getPassword);
+        r.add("spring.flyway.url", postgres::getJdbcUrl);
+        r.add("spring.flyway.user", postgres::getUsername);
+        r.add("spring.flyway.password", postgres::getPassword);
     }
 
     @Autowired
-    private Flyway flyway;
+    Flyway flyway;
+
+    @Autowired
+    DataSource dataSource;
 
     @Test
     void flywayApplied_andUsersTableExists() throws Exception {
-        var result = flyway.migrate();
-        assertThat(result.migrationsExecuted).isGreaterThan(0);
+        // 1) Flyway állapot: van aktuális verzió, és az V1
+        var current = flyway.info().current();
+        assertThat(current).as("Flyway current migration should not be null").isNotNull();
+        assertThat(current.getVersion()).isNotNull();
+        assertThat(current.getVersion().getVersion()).isEqualTo("1");
 
-        try (var conn = java.sql.DriverManager.getConnection(
-                postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
-             var rs = conn.getMetaData().getTables(null, "public", "users", null)) {
-            assertTrue(rs.next(), "A 'users' tábla nem található (schema: public)");
+        // 2) users tábla tényleg létezik
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement(
+                     "select exists (select 1 from information_schema.tables " +
+                     "where table_schema = 'public' and table_name = 'users')")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                boolean exists = rs.getBoolean(1);
+                assertTrue(exists, "users table should exist after Flyway migration");
+            }
         }
     }
 }

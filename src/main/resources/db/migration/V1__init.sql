@@ -1,4 +1,4 @@
-﻿-- V1__init.sql
+-- V1__init.sql
 -- Kezdő (baseline) séma: egyszerű users tábla
 -- Az id-t az alkalmazás (UUID) fogja adni, nem az adatbázis auto-increment.
 
