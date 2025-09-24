@@ -23,3 +23,6 @@ Thumbs.db
 # Extra helyi cache mappák
 /.gradle-j21/
 /.gradle-jdk/
+# Helyi helper mappák
+/_snapshot_*/
+/_keyfiles/
