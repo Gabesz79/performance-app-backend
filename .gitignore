@@ -1,77 +1,22 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-# Dev/Gradle caches
-.gradle/
-.gradle-jdk/
-.gradle-j21/
-
-# Build output
-build/
-out/
-target/
-bin/
+﻿# Build
+/build/
+/out/
+/target/
+/.gradle/
 
 # IDE
 .idea/
-.vscode/
 *.iml
+.vscode/
 
-# Logs & temp
-logs/
+# Logs/temp
 *.log
 *.tmp
 *.swp
 
-# Local env
-.env
-.env.local
-.env.*.local
-*.local.properties
-
-# OS noise
+# OS
 .DS_Store
 Thumbs.db
 
-# Accidental files from earlier attempts
-/JAVA_HOME
-/where
-/Probalom
-/Tipikus
-
-# NOTE: Flyway migr?ci?k maradjanak verzi?zva!
-# (NINCS ignore a src/main/resources/db/ alatt.)
+# Backup
+*.bak
