@@ -1,4 +1,4 @@
-﻿name: Bug report
+name: Bug report
 description: Report a bug in performance-app-backend
 title: "[bug] <short title>"
 labels: ["bug"]
@@ -6,23 +6,23 @@ body:
   - type: checkboxes
     id: checks
     attributes:
-      label: Előzetes ellenőrzések
+      label: ElĹ‘zetes ellenĹ‘rzĂ©sek
       options:
-        - label: Átkerestem a meglévő issue-kat (nincs duplikátum).
+        - label: Ătkerestem a meglĂ©vĹ‘ issue-kat (nincs duplikĂˇtum).
           required: true
-        - label: Tudok minimális reprodukciós lépéseket adni.
+        - label: Tudok minimĂˇlis reprodukciĂłs lĂ©pĂ©seket adni.
           required: true
   - type: textarea
     id: env
     attributes:
-      label: Környezet (Environment)
+      label: KĂ¶rnyezet (Environment)
       description: OS, Java version, Spring Boot version, Docker/Docker Compose version, DB version, stb.
       placeholder: "Windows 11, Java 21 (Temurin), Spring Boot 3.x, Docker 27.x, Postgres 16..."
   - type: textarea
     id: steps
     attributes:
-      label: Lépések a reprodukcióhoz
-      description: Írd le pontosan, hogyan lehet előidézni a hibát.
+      label: LĂ©pĂ©sek a reprodukciĂłhoz
+      description: ĂŤrd le pontosan, hogyan lehet elĹ‘idĂ©zni a hibĂˇt.
       placeholder: |
         1. ...
         2. ...
@@ -32,27 +32,27 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: Várt viselkedés
-      placeholder: "Mit kellett volna történjen?"
+      label: VĂˇrt viselkedĂ©s
+      placeholder: "Mit kellett volna tĂ¶rtĂ©njen?"
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
-      label: Tényleges viselkedés / hibaüzenet
-      placeholder: "Mi történt valójában? Log-részletek, stacktrace-ek…"
+      label: TĂ©nyleges viselkedĂ©s / hibaĂĽzenet
+      placeholder: "Mi tĂ¶rtĂ©nt valĂłjĂˇban? Log-rĂ©szletek, stacktrace-ekâ€¦"
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Releváns logok / képernyőképek
-      description: Csatolj részleteket (érzékeny adatokat takard ki).
+      label: RelevĂˇns logok / kĂ©pernyĹ‘kĂ©pek
+      description: Csatolj rĂ©szleteket (Ă©rzĂ©keny adatokat takard ki).
       render: shell
   - type: dropdown
     id: severity
     attributes:
-      label: Súlyosság
+      label: SĂşlyossĂˇg
       multiple: false
       options:
         - low

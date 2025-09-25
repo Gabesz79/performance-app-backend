@@ -1,35 +1,5 @@
-* text=auto
-
-# Windows-os szkriptek CRLF
+﻿* text=auto
+*.sh text eol=lf
+gradlew text eol=lf
 *.bat text eol=crlf
 *.cmd text eol=crlf
-*.ps1 text eol=crlf
-
-# Unix-os f?jlok LF
-*.sh text eol=lf
-*.gradle text eol=lf
-*.java text eol=lf
-*.kt text eol=lf
-*.md text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
-*.sql text eol=lf
-*.html text eol=lf
-*.css text eol=lf
-*.js text eol=lf
-*.ts text eol=lf
-*.properties text eol=lf
-
-# Bin?risok (ne konvert?ld)
-*.jar binary
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.pdf binary
-*.ico binary
-*.woff binary
-*.woff2 binary
-*.eot binary
-*.ttf binary
-*.mp4 binary

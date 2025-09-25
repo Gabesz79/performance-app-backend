@@ -5,7 +5,7 @@ plugins {
     id 'jacoco'
 }
 
-group = 'hu.performance'              // tetszőleges; nem kötelező
+group = 'hu.performance'
 version = '0.1.0-SNAPSHOT'
 
 java {
@@ -28,26 +28,23 @@ dependencies {
     // --- Spring starters ---
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator' // hasznos health/info/metrics
 
-    // --- DB & migráció ---
+    // --- DB & migrations ---
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-database-postgresql'
-    runtimeOnly   'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
 
-    // (opcionális dev/test H2 – ha kell)
-    testRuntimeOnly 'com.h2database:h2'
-
-    // --- Kényelmi cuccok ---
+    // --- Lombok ---
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // --- Teszt ---
+    // --- Test ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // Testcontainers majd külön PR-ben:
-    // testImplementation 'org.testcontainers:junit-jupiter'
-    // testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -70,27 +67,16 @@ jacocoTestReport {
         html.required = true
         csv.required = false
     }
-    // Ha később bizonyos csomagokat ki akarsz zárni a reportból:
-    // classDirectories.setFrom(
-    //     files(classDirectories.files.collect {
-    //         fileTree(dir: it, exclude: ['**/config/**', '**/dto/**'])
-    //     })
-    // )
 }
 
 jacocoTestCoverageVerification {
     dependsOn test
     violationRules {
         rule {
-            element = 'BUNDLE'
-            // indulásnak 0%; ha már vannak érdemi tesztek, emeljük 0.60–0.70-re
-            limit { minimum = 0.0 }
+            limit {
+                minimum = 0 // 0% gate – később emelhető
+            }
         }
     }
-    // Ha a reportban kizártál csomagokat, itt is tükrözd ugyanazt:
-    // classDirectories.setFrom(tasks.jacocoTestReport.classDirectories)
 }
 
-check {
-    dependsOn jacocoTestCoverageVerification
-}
