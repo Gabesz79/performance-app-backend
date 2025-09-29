@@ -21,7 +21,11 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      # Wrapper validation ideiglenesen kiiktatva a runner hálózati flake miatt
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Gradle version (warm up)
+        run: ./gradlew --no-daemon --version
 
       - name: Build (no tests for now)
         run: ./gradlew --no-daemon clean build -x test
