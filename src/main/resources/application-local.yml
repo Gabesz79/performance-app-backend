@@ -16,3 +16,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/performance_db
     user: perf_user
     password: Perf_1234!
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: true
