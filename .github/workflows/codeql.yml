@@ -35,6 +35,8 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
+          
+build-mode: manual
       # Manuális build a CodeQL-nek (teszt nélkül, csak fordítás kell)
       - name: Build for CodeQL (no tests)
         run: |
@@ -46,7 +48,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build (manual for CodeQL)
-        run: |           ./gradlew --version           ./gradlew --no-daemon --stacktrace --info clean build -x test
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
 
+        run: |
+
+          ./gradlew --version
+
+          ./gradlew --no-daemon --stacktrace --info clean build -x test
