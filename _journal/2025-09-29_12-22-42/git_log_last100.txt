@@ -1,0 +1,24 @@
+﻿* 620134a (HEAD -> feat/session-rpe) feat(db): add V2 schema for athlete & workout_session (indexes + updated_at triggers)
+* 18d4730 (origin/main, main) Migrate Flyway smoke test to Testcontainers Postgres; fix UTF-8 BOM; enable JaCoCo (#18)
+* 05b3139 ci: enable JaCoCo report and coverage gate (0%) (#17)
+* 31bdb37 docs(readme): add CodeQL status badge (#16)
+* f7b36d3 build(docker): align Postgres password to Perf_1234! to match application-local.yml (#15)
+* 3862634 ci: add Gradle test workflow (Java 21) for PRs and main (#14)
+* bca9eba (tag: checkpoint-2025-09-23-dev-scripts) docs(readme): link DEV Quickstart (#13)
+* 8545dfc docs: add DEV Quickstart for dev scripts (Windows) (#12)
+* 7823d77 Chore/dev scripts (#11)
+* 058899f ci: broaden build triggers (push to main + feature branches) and add workflow_dispatch (#10)
+* 9ebf33f ci(security): add CodeQL code scanning workflow (#9)
+* 93156f3 chore(repo): add issue templates and SECURITY.md (#8)
+* 5f48014 ci(repo): add Dependabot config, PR template, and CODEOWNERS (#7)
+* acd1b6f chore: smoke test for branch protection (README touch) (#6)
+* dfd4478 ci: run build on main push + add README build badge (#5)
+* 23fd41c ci: add GitHub Actions build workflow (#4)
+* 7bde672 chore(repo): normalize line endings via .gitattributes
+* 3bcf74d chore(repo): add .gitattributes for consistent EOLs
+* d25bb50 chore(dev): add dev-start.bat and dev-stop.bat
+* 97e0781 (tag: v0.2.0) feat(dev): Docker Compose (Postgres) + local profil; add /api/healthz endpoint (#3)
+* 5f07b71 (tag: v0.1.0) Feat/boot skeleton (#2)
+* efa3560 docs: add protection check note (#1)
+* 1450b3c (tag: v0.0.1) docs: add README
+* f665cd5 chore: initial scaffold
