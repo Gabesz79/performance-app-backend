@@ -34,6 +34,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
+          build-mode: manual
           uild-mode: manual
 
           
@@ -54,3 +55,4 @@ jobs:
           ./gradlew --version
 
           ./gradlew --no-daemon --stacktrace --info clean build -x test
+
