@@ -60,8 +60,8 @@ jobs:
 
         run: |
 
-          set -euxo pipefail
-
+          set -euxo pipefail`r`n
+          export ORG_GRADLE_JAVA_HOME="$JAVA_HOME"
           if [ -x ./gradlew ]; then
 
             ./gradlew --version
@@ -75,6 +75,7 @@ jobs:
           fi
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
 
 
 
