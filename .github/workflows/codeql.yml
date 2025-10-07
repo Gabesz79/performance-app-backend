@@ -34,9 +34,9 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
+          uild-mode: manual
 
           
-build-mode: manual
       # Manuális build a CodeQL-nek (teszt nélkül, csak fordítás kell)
       - name: Build for CodeQL (no tests)
         run: |
