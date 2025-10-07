@@ -46,7 +46,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build (manual for CodeQL)
-        run: ./gradlew --no-daemon -Dorg.gradle.java.home=$JAVA_HOME clean build -x test
+        run: |           ./gradlew --version           ./gradlew --no-daemon --stacktrace --info clean build -x test
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
