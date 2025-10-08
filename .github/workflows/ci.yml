@@ -1,8 +1,9 @@
 name: build
 
 on:
+  push:
+    branches: [ main, develop, 'feat/**' ]
   pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -11,18 +12,42 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Set up JDK 17
+        id: jdk
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '17'
           cache: gradle
 
       - name: Make gradlew executable
-        run: chmod +x gradlew
+        run: |
+          if [ -x ./gradlew ]; then chmod +x ./gradlew; fi
 
-      # Build gyorsan, tesztek nélkül (a tesztek külön workflow-ban futnak)
+      - name: Sanity – show Java
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
+
+      # 🔧 Ha a repo-ban van Windowsos org.gradle.java.home, CI-n kikommenteljük
+      - name: Disable org.gradle.java.home from gradle.properties on CI
+        run: |
+          set -euxo pipefail
+          files=$(git ls-files | grep -Ei '(^|/)(gradle\.properties)$' || true)
+          for f in $files; do
+            if grep -Eq '^\s*org\.gradle\.java\.home\s*=' "$f"; then
+              sed -i.bak -E 's|^\s*org\.gradle\.java\.home\s*=.*$|# org.gradle.java.home disabled on CI|g' "$f"
+              echo "::notice file=$f::commented org.gradle.java.home for CI"
+            fi
+          done
+
       - name: Gradle build (no tests)
-        run: ./gradlew --no-daemon -x test build
+        env:
+          # két helyen is erőltetjük, hogy felülírja a gradle.properties-t
+          ORG_GRADLE_JAVA_HOME: ${{ steps.jdk.outputs.path }}
+          GRADLE_OPTS: -Dorg.gradle.java.home=${{ steps.jdk.outputs.path }}
+        run: |
+          ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace --info clean build -x test
