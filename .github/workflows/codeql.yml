@@ -40,30 +40,10 @@ jobs:
         with:
           languages: java-kotlin
           build-mode: manual
-
-      - name: Build (manual for CodeQL)
-        shell: bash
-        run: |
-          set -euxo pipefail
-          export ORG_GRADLE_JAVA_HOME="$JAVA_HOME"
-
-          if [ -x ./gradlew ]; then
-            ./gradlew --version
-            ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace --info \
-              -x test -x check -x jacocoTestReport -x ktlintCheck -x detekt -x spotbugsMain -x spotbugsTest \
-              assemble
-          else
-            WRAPPER=$(git ls-files | grep '/gradlew$' | head -n1 || true)
-            if [ -n "$WRAPPER" ]; then
-              DIR=$(dirname "$WRAPPER")
-              (cd "$DIR" && ./gradlew --version)
-              (cd "$DIR" && ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace --info \
-                -x test -x check -x jacocoTestReport -x ktlintCheck -x detekt -x spotbugsMain -x spotbugsTest \
-                assemble)
-            else
-              echo "::warning ::No gradlew found; skipping manual build (buildless extraction may limit results)"
-            fi
-          fi
-
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        env:
+          GRADLE_OPTS: -Dorg.gradle.java.home=${{ env.JAVA_HOME }}
+          ORG_GRADLE_JAVA_HOME: ${{ env.JAVA_HOME }}
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
