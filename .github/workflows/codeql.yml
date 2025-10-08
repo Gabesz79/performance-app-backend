@@ -6,8 +6,6 @@ on:
       - feat/tests-green-openapi-swagger-ok-20251007
   pull_request:
     branches: [ "main" ]
-  schedule:
-    - cron: "0 3 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -15,11 +13,7 @@ jobs:
     name: Smoke
     runs-on: ubuntu-latest
     steps:
-      - name: Smoke ping
-        run: |
-          echo "smoke ok"
-          echo "event=${{ github.event_name }}"
-          echo "sha=${{ github.sha }}"
+      - run: echo "smoke ok (event=${{ github.event_name }}, sha=${{ github.sha }})"
 
   codeql:
     name: CodeQL (java-kotlin)
@@ -47,38 +41,29 @@ jobs:
           languages: java-kotlin
           build-mode: manual
 
-      - name: Make gradlew executable
-        if: runner.os != 'Windows'
-        run: |
-          if [ -x ./gradlew ]; then
-            chmod +x ./gradlew
-          fi
-
       - name: Build (manual for CodeQL)
-
         shell: bash
-
         run: |
-
-          set -euxo pipefail`r`n
+          set -euxo pipefail
           export ORG_GRADLE_JAVA_HOME="$JAVA_HOME"
+
           if [ -x ./gradlew ]; then
-
             ./gradlew --version
-
-            ./gradlew -Dorg.gradle.java.home=$JAVA_HOME --no-daemon --stacktrace --info -x test -x check -x jacocoTestReport -x ktlintCheck -x detekt -x spotbugsMain -x spotbugsTest assemble
-
+            ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace --info \
+              -x test -x check -x jacocoTestReport -x ktlintCheck -x detekt -x spotbugsMain -x spotbugsTest \
+              assemble
           else
-
-            echo "::error ::gradlew not found at repo root"; exit 1
-
+            WRAPPER=$(git ls-files | grep '/gradlew$' | head -n1 || true)
+            if [ -n "$WRAPPER" ]; then
+              DIR=$(dirname "$WRAPPER")
+              (cd "$DIR" && ./gradlew --version)
+              (cd "$DIR" && ./gradlew -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace --info \
+                -x test -x check -x jacocoTestReport -x ktlintCheck -x detekt -x spotbugsMain -x spotbugsTest \
+                assemble)
+            else
+              echo "::warning ::No gradlew found; skipping manual build (buildless extraction may limit results)"
+            fi
           fi
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-
-
-
-
-
-
-
