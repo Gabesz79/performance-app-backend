@@ -1,0 +1,10 @@
+# .github/workflows/smoke.yml
+name: SMOKE
+on:
+  push:
+    branches: [ "<aktuális-branch-neved>" ]
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "smoke ok (${{ github.sha }})"
