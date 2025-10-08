@@ -38,8 +38,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: java-kotlin
-          build-mode: manual
+          languages: java
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
         env:
@@ -47,3 +46,4 @@ jobs:
           ORG_GRADLE_JAVA_HOME: ${{ env.JAVA_HOME }}
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
