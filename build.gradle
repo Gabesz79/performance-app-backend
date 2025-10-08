@@ -25,25 +25,32 @@ configurations {
 }
 
 dependencies {
+    //implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.4')
     // --- Spring starters ---
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //fontos: 2.7.x vagy frissebb kell Spring 6.2-höz - kényszerítenem kell a verziókezelés(egyezés) miatt
+    implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui') {
+        version { strictly '2.7.0' }
+    }
 
     // --- DB & migrations ---
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-database-postgresql'
-    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly  'org.postgresql:postgresql:42.7.7'
 
     // --- Lombok ---
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     // --- Test ---
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit 5, Mockito, AssertJ, Spring Test
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // IDE futtatáshoz hasznos
     testImplementation 'org.testcontainers:postgresql'
 }
 
@@ -51,7 +58,7 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
@@ -76,6 +83,14 @@ jacocoTestCoverageVerification {
             limit {
                 minimum = 0 // 0% gate – később emelhető
             }
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { d ->
+        if (d.requested.group == 'org.springdoc') {
+            d.useVersion '2.7.0'
         }
     }
 }

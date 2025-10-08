@@ -1,0 +1,10 @@
+﻿java : Picked up JAVA_TOOL_OPTIONS: -Djava.net.preferIPv4Stack=true
+At D:\performance-app-backend\save_conversation_and_context.ps1:46 char:50
++ Save-Out (Join-Path $out 'java_version.txt')   { java -version }
++                                                  ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Picked up JAVA_...rIPv4Stack=true:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+java version "21.0.1" 2023-10-17 LTS
+Java(TM) SE Runtime Environment (build 21.0.1+12-LTS-29)
+Java HotSpot(TM) 64-Bit Server VM (build 21.0.1+12-LTS-29, mixed mode, sharing)

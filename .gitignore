@@ -22,3 +22,7 @@ Thumbs.db
 
 # Backup
 *.bak
+artifacts/
+.run/
+.gradle-j21/
+.gradle-jdk/

@@ -1,0 +1,11 @@
+﻿  build/db-password-consistency     0e81167 [origin/build/db-password-consistency: gone] build(docker): align Postgres password to Perf_1234! to match application-local.yml
+  chore/protection-smoke-test       9922fdb [origin/chore/protection-smoke-test: gone] chore: smoke test for branch protection (README touch)
+  ci/build-on-main-and-badge        cc93cd4 [origin/ci/build-on-main-and-badge: gone] ci: run build on main push + add README build badge
+  ci/codeql-scan                    bbb47a1 [origin/ci/codeql-scan: gone] ci(security): add CodeQL code scanning workflow
+  ci/fix-build-triggers             d14fcb7 [origin/ci/fix-build-triggers: gone] ci: broaden build triggers (push to main + feature branches) and add workflow_dispatch
+  ci/jacoco-coverage-gate           23d398f [origin/ci/jacoco-coverage-gate: gone] ci: enable JaCoCo report and coverage gate (0%)
+  ci/repo-hygiene                   ea6b03f [origin/ci/repo-hygiene: gone] ci(repo): add Dependabot config, PR template, and CODEOWNERS
+  docs/codeql-badge                 79e6889 [origin/docs/codeql-badge: gone] docs(readme): add CodeQL status badge
+* feat/session-rpe                  620134a feat(db): add V2 schema for athlete & workout_session (indexes + updated_at triggers)
+  main                              18d4730 [origin/main] Migrate Flyway smoke test to Testcontainers Postgres; fix UTF-8 BOM; enable JaCoCo (#18)
+  repo/issue-templates-and-security 195ebeb [origin/repo/issue-templates-and-security: gone] chore(repo): add issue templates and SECURITY.md

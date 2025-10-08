@@ -1,0 +1,19 @@
+3862634 ci: add Gradle test workflow (Java 21) for PRs and main (#14)
+bca9eba docs(readme): link DEV Quickstart (#13)
+8545dfc docs: add DEV Quickstart for dev scripts (Windows) (#12)
+7823d77 Chore/dev scripts (#11)
+058899f ci: broaden build triggers (push to main + feature branches) and add workflow_dispatch (#10)
+9ebf33f ci(security): add CodeQL code scanning workflow (#9)
+93156f3 chore(repo): add issue templates and SECURITY.md (#8)
+5f48014 ci(repo): add Dependabot config, PR template, and CODEOWNERS (#7)
+acd1b6f chore: smoke test for branch protection (README touch) (#6)
+dfd4478 ci: run build on main push + add README build badge (#5)
+23fd41c ci: add GitHub Actions build workflow (#4)
+7bde672 chore(repo): normalize line endings via .gitattributes
+3bcf74d chore(repo): add .gitattributes for consistent EOLs
+d25bb50 chore(dev): add dev-start.bat and dev-stop.bat
+97e0781 feat(dev): Docker Compose (Postgres) + local profil; add /api/healthz endpoint (#3)
+5f07b71 Feat/boot skeleton (#2)
+efa3560 docs: add protection check note (#1)
+1450b3c docs: add README
+f665cd5 chore: initial scaffold

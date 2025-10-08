@@ -1,0 +1,19 @@
+﻿* remote origin
+  Fetch URL: git@github.com:Gabesz79/performance-app-backend.git
+  Push  URL: git@github.com:Gabesz79/performance-app-backend.git
+  HEAD branch: main
+  Remote branch:
+    main tracked
+  Local branches configured for 'git pull':
+    build/db-password-consistency     merges with remote build/db-password-consistency
+    chore/protection-smoke-test       merges with remote chore/protection-smoke-test
+    ci/build-on-main-and-badge        merges with remote ci/build-on-main-and-badge
+    ci/codeql-scan                    merges with remote ci/codeql-scan
+    ci/fix-build-triggers             merges with remote ci/fix-build-triggers
+    ci/jacoco-coverage-gate           merges with remote ci/jacoco-coverage-gate
+    ci/repo-hygiene                   merges with remote ci/repo-hygiene
+    docs/codeql-badge                 merges with remote docs/codeql-badge
+    main                              merges with remote main
+    repo/issue-templates-and-security merges with remote repo/issue-templates-and-security
+  Local ref configured for 'git push':
+    main pushes to main (up to date)

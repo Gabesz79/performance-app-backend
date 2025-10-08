@@ -1,0 +1,93 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex 76477a6..67fc053 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-﻿# Build[m
+[32m+[m[32m﻿# Build kimenet[m
+ /build/[m
+ /out/[m
+ /target/[m
+[36m@@ -9,7 +9,7 @@[m
+ *.iml[m
+ .vscode/[m
+ [m
+[31m-# Logs/temp[m
+[32m+[m[32m# Log/Temp[m
+ *.log[m
+ *.tmp[m
+ *.swp[m
+[1mdiff --git a/src/test/java/hu/performance/it/FlywaySmokeIT.java b/src/test/java/hu/performance/it/FlywaySmokeIT.java[m
+[1mdeleted file mode 100644[m
+[1mindex 2a37c11..0000000[m
+[1m--- a/src/test/java/hu/performance/it/FlywaySmokeIT.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,56 +0,0 @@[m
+[31m-﻿package hu.performance.it;[m
+[31m-[m
+[31m-import org.flywaydb.core.Flyway;[m
+[31m-import org.junit.jupiter.api.Test;[m
+[31m-import org.springframework.beans.factory.annotation.Autowired;[m
+[31m-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;[m
+[31m-import org.springframework.boot.test.context.SpringBootTest;[m
+[31m-import org.springframework.test.context.DynamicPropertyRegistry;[m
+[31m-import org.springframework.test.context.DynamicPropertySource;[m
+[31m-import org.testcontainers.containers.PostgreSQLContainer;[m
+[31m-import org.testcontainers.junit.jupiter.Container;[m
+[31m-import org.testcontainers.junit.jupiter.Testcontainers;[m
+[31m-[m
+[31m-import static org.assertj.core.api.Assertions.assertThat;[m
+[31m-import static org.junit.jupiter.api.Assertions.assertTrue;[m
+[31m-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.*;[m
+[31m-[m
+[31m-@Testcontainers[m
+[31m-@SpringBootTest[m
+[31m-@AutoConfigureTestDatabase(replace = NONE)[m
+[31m-class FlywaySmokeIT {[m
+[31m-[m
+[31m-    @Container[m
+[31m-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")[m
+[31m-            .withDatabaseName("testdb")[m
+[31m-            .withUsername("postgres")[m
+[31m-            .withPassword("postgres")[m
+[31m-            .withReuse(false);[m
+[31m-[m
+[31m-    @DynamicPropertySource[m
+[31m-    static void overrideProps(DynamicPropertyRegistry registry) {[m
+[31m-        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");[m
+[31m-        registry.add("spring.datasource.url", postgres::getJdbcUrl);[m
+[31m-        registry.add("spring.datasource.username", postgres::getUsername);[m
+[31m-        registry.add("spring.datasource.password", postgres::getPassword);[m
+[31m-[m
+[31m-        registry.add("spring.flyway.url", postgres::getJdbcUrl);[m
+[31m-        registry.add("spring.flyway.user", postgres::getUsername);[m
+[31m-        registry.add("spring.flyway.password", postgres::getPassword);[m
+[31m-    }[m
+[31m-[m
+[31m-    @Autowired[m
+[31m-    private Flyway flyway;[m
+[31m-[m
+[31m-    @Test[m
+[31m-    void flywayApplied_andUsersTableExists() throws Exception {[m
+[31m-        var result = flyway.migrate();[m
+[31m-        assertThat(result.migrationsExecuted).isGreaterThan(0);[m
+[31m-[m
+[31m-        try (var conn = java.sql.DriverManager.getConnection([m
+[31m-                postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());[m
+[31m-             var rs = conn.getMetaData().getTables(null, "public", "users", null)) {[m
+[31m-            assertTrue(rs.next(), "A 'users' tábla nem található (schema: public)");[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/src/test/resources/application.properties b/src/test/resources/application.properties[m
+[1mindex 5d90306..7c4777f 100644[m
+[1m--- a/src/test/resources/application.properties[m
+[1m+++ b/src/test/resources/application.properties[m
+[36m@@ -2,6 +2,6 @@[m
+ spring.flyway.enabled=true[m
+ [m
+ # Flyway kezeli a sémát, ne generáljon a Hibernate[m
+[31m-spring.jpa.hibernate.ddl-auto=none[m
+[32m+[m[32mspring.jpa.hibernate.ddl-auto=validate[m
+ spring.jpa.properties.hibernate.format_sql=true[m
+ spring.jpa.properties.hibernate.show_sql=false[m
