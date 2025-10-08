@@ -24,3 +24,5 @@ Thumbs.db
 *.bak
 artifacts/
 .run/
+.gradle-j21/
+.gradle-jdk/
