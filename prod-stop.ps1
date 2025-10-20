@@ -1,14 +1,13 @@
 #Requires -Version 5.1
 param(
-  [int]$Port = 8080,
-  [switch]$KeepDbData  # ha megadod, nem törli a docker volume-ot
+  [int]$Port = 8082
 )
 
 $ErrorActionPreference = "SilentlyContinue"
-$LOG = "[DEV]"
+$LOG = "[PROD]"
 
 Set-Location -LiteralPath $PSScriptRoot
-Write-Host "$LOG Stopping app & deps..."
+Write-Host "$LOG Stopping..."
 
 function TryStop-ProcId([int]$procId, [string]$label = ""){
   if($procId -le 0){ return }
@@ -21,11 +20,11 @@ function TryStop-ProcId([int]$procId, [string]$label = ""){
   }
 }
 
-# PID fájlokból leállítás (gradle/cmd/java folyamatfa)
+# PID fájlokból leállítás
 $runDir   = Join-Path $PSScriptRoot ".run"
 $pidFiles = @(
-  Join-Path $runDir "bootrun.pid",      # dev-start által létrehozott
-  Join-Path $runDir "bootrun.dev.pid"   # ha esetleg így nevezted
+  Join-Path $runDir "bootrun.prod.pid",  # prod-start által javasolt név
+  Join-Path $runDir "bootrun.pid"        # ha mégis ezt használod
 ) | Where-Object { Test-Path $_ }
 
 foreach($f in $pidFiles){
@@ -37,7 +36,7 @@ foreach($f in $pidFiles){
   Remove-Item $f -Force -ErrorAction SilentlyContinue
 }
 
-# Porttisztítás (8080 a default dev port)
+# Porttisztítás (8082 a default prod port)
 Write-Host "$LOG Port cleanup: $Port"
 Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
   Select-Object -ExpandProperty OwningProcess -Unique |
@@ -49,18 +48,7 @@ while((Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction Silently
   Start-Sleep -Seconds 1
 }
 
-# Docker compose down (dev környezet)
-if(Test-Path (Join-Path $PSScriptRoot "docker-compose.yml")){
-  if($KeepDbData){
-    Write-Host "$LOG docker compose down (volume MEGMARAD)"
-    docker compose down *> $null
-  }else{
-    Write-Host "$LOG docker compose down -v (volume TÖRLŐDIK)"
-    docker compose down -v *> $null
-  }
-}else{
-  Write-Host "$LOG docker-compose.yml not found (skipping)"
-}
-
 Write-Host "$LOG stopped."
 exit 0
+
+
