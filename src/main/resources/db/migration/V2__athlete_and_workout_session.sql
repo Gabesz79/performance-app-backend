@@ -1,5 +1,6 @@
 ﻿-- V2__athlete_and_workout_session.sql
 
+--ATHLETE
 create table if not exists athlete (
   id               bigserial primary key,
   created_at       timestamptz not null default now(),
@@ -10,6 +11,7 @@ create table if not exists athlete (
   constraint uq_athlete_email unique (email)
 );
 
+--WORKOUT_SESSION
 create table if not exists workout_session (
   id               bigserial primary key,
   athlete_id       bigint not null references athlete(id) on delete cascade,
@@ -22,9 +24,11 @@ create table if not exists workout_session (
   updated_at       timestamptz not null default now()
 );
 
+--index a gyakori lekérdezésekhez
 create index if not exists idx_workout_session_athlete_date on workout_session(athlete_id, session_date desc);
 create index if not exists idx_workout_session_sport        on workout_session(sport);
 
+--updated_at kezelése
 create or replace function set_updated_at() returns trigger as $$
 begin
   new.updated_at = now();

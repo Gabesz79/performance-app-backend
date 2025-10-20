@@ -1,11 +1,10 @@
 #Requires -Version 5.1
-# performance-app-backend DEV start (PowerShell, recommended)
+# performance-app-backend PROD start (PowerShell)
 param(
   [int]$HealthTimeoutSec = 120
 )
 $ErrorActionPreference = "Stop"
-if (-not $env:SPRING_PROFILES_ACTIVE) { $env:SPRING_PROFILES_ACTIVE = "local" }
-$script:LOG = "[DEV]"
+$script:LOG = "[PROD]"
 
 function Log($m){ Write-Host $m }
 function Warn($m){ Write-Warning $m }
@@ -13,14 +12,15 @@ function Fail($m){ Write-Error $m; exit 1 }
 
 Set-Location -LiteralPath $PSScriptRoot
 
-#kényszerítsük a DEV környezetet mindig local/8080-ra (prod miatt) ---
-$env:SPRING_PROFILES_ACTIVE = "local"
-#healthz port azonosítása és használata
-$port = if ($env:SERVER_PORT) { [int]$env:SERVER_PORT } else { 8080 }
+# --- LÉNYEG: kényszerítsük a PROD környezetet mindig prod/8082-re ---
+$env:SPRING_PROFILES_ACTIVE = "prod"
+if (-not $env:SERVER_PORT) { $env:SERVER_PORT = "8082" }
+
+$port = [int]$env:SERVER_PORT
 $health = "http://localhost:$port/api/healthz"
-Log "$LOG Profile: $env:SPRING_PROFILES_ACTIVE"
-Log "$LOG Port: $port"
-Log "$LOG Health URL: $health"
+Write-Host "[PROD] Profile: $env:SPRING_PROFILES_ACTIVE"
+Write-Host "[PROD] Port: $port"
+Write-Host "[PROD] Health URL: $health"
 
 # 0) JDK
 $JdkCandidates = @(
@@ -43,29 +43,9 @@ $env:JAVA_TOOL_OPTIONS = "-Djava.net.preferIPv4Stack=true"
 Log "$LOG JAVA_HOME=$javaHome"
 & java -version
 
-# 1) Docker Desktop
-try { docker info | Out-Null } catch {
-  Warn "$LOG Docker not ready. Starting Docker Desktop..."
-  $dockerExe = "C:\Program Files\Docker\Docker\Docker Desktop.exe"
-  if(-not (Test-Path $dockerExe)){ Fail "$LOG Docker Desktop not found." }
-  Start-Process -FilePath $dockerExe | Out-Null
-  $sw = [Diagnostics.Stopwatch]::StartNew()
-  while($sw.Elapsed.TotalSeconds -lt 90){
-    Start-Sleep -Seconds 3
-    try { docker info | Out-Null; break } catch {}
-  }
-  if($sw.Elapsed.TotalSeconds -ge 90){ Fail "$LOG Docker engine didn't become ready in time." }
-}
-Log "$LOG Docker is ready."
+# (NINCS Docker compose: a DB-t a dev-compose indítja, vagy saját DB-det használod)
 
-# 2) compose up
-if(Test-Path "docker-compose.yml"){
-  Log "$LOG docker compose up -d"
-  docker compose up -d | Out-Null
-}else{
-  Warn "$LOG docker-compose.yml not found (skipping)"
-}
-
+# Indítás
 # 3) bootRun (spawn + PID file) — KIMENET FÁJLBA
 $runDir = Join-Path $PSScriptRoot ".run"
 New-Item -ItemType Directory -Force -Path $runDir | Out-Null
@@ -82,16 +62,19 @@ $proc = Start-Process -FilePath ".\gradlew.bat" `
 
 $proc.Id | Set-Content -Path (Join-Path $runDir "bootrun.pid")
 Log "$LOG bootRun PID=$($proc.Id)"
+Log "$LOG Inditas: http://localhost:$($env:SERVER_PORT)  (Swagger: /swagger-ui/index.html)"
 
-# 4) health
+# Health check
 $deadline = (Get-Date).AddSeconds($HealthTimeoutSec)
-$health = "http://localhost:8080/api/healthz"
+$port = $env:SERVER_PORT
+$health = "http://localhost:$port/actuator/health"
 while((Get-Date) -lt $deadline){
   try{
     $r = Invoke-WebRequest $health -TimeoutSec 3 -UseBasicParsing
     if($r.StatusCode -eq 200){
       Log "$LOG health OK: $($r.Content)"
-      Log "$LOG Swagger UI: http://localhost:8080/swagger-ui.html"
+      Log "$LOG App:     http://localhost:$port/"
+      Log "$LOG Swagger: http://localhost:$port/swagger-ui/index.html"
       exit 0
     }
   }catch{}
