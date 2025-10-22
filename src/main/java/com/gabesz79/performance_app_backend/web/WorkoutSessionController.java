@@ -2,10 +2,13 @@ package com.gabesz79.performance_app_backend.web;
 
 import com.gabesz79.performance_app_backend.domain.Sport;
 import com.gabesz79.performance_app_backend.domain.WorkoutSession;
+import com.gabesz79.performance_app_backend.repository.WorkoutSessionRepository;
 import com.gabesz79.performance_app_backend.service.WorkoutSessionService;
+import com.gabesz79.performance_app_backend.workout.WorkoutSummaryDto;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +17,39 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workouts")
-@RequiredArgsConstructor
 public class WorkoutSessionController {
+
     private final WorkoutSessionService service;
+
+    private final WorkoutSessionRepository repo;
+
+    public WorkoutSessionController(WorkoutSessionService service, WorkoutSessionRepository repo) {
+        this.service = service;
+        this.repo = repo;
+    }
+
+    @GetMapping("/search")
+    public List<WorkoutSessionDto> search(
+        @RequestParam(required = false) Long athleteId,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required = false) Sport sport //ha String az entitásban: String
+    ) {
+        return repo.search(athleteId, from, to, sport)
+            .stream()
+            .map(WorkoutSessionDto::from)
+            .toList();
+    }
+
+    @GetMapping("/summary")
+    public WorkoutSummaryDto summary(
+        @RequestParam(required = false) Long athleteId,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required = false) Sport sport //ha String az entitásban: String
+    ) {
+        return repo.summarize(athleteId, from, to, sport);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,9 +70,9 @@ public class WorkoutSessionController {
         return service.list().stream().map(WorkoutSessionDto::from).toList();
     }
 
-    @GetMapping("/{id}")
-    public WorkoutSessionDto get(@PathVariable Long id) {
-        return WorkoutSessionDto.from(service.get(id));
+    @GetMapping("/{id:\\d+}") //ütközés elkerülése érdekében id számra kényszerítése
+    public WorkoutSession get(@PathVariable Long id) {
+        return repo.findById(id).orElseThrow();
     }
 
     @DeleteMapping("/{id}")
