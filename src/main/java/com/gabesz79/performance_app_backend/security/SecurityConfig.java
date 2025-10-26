@@ -2,6 +2,7 @@ package com.gabesz79.performance_app_backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
+@Profile({"local", "portfolio"}) //Actuator lánc definiálva a "local" és a "portfolio" profilhoz is
 public class SecurityConfig {
 
     // 1) ACTUATOR lánc: /actuator/health/** nyitott, a többi actuator védett (Basic)
