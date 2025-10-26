@@ -25,7 +25,7 @@ public class WorkoutSession {
 
     //Varchar oszlop -> enum névként tároljuk
     @Enumerated(EnumType.STRING)
-    @Column(name = "sport", length = 30) //DB-ben charcter varying
+    @Column(name = "sport", nullable=false, length = 32) //DB-ben charcter varying
     private Sport sport;
 
     @Column(name = "duration_minutes", nullable = false)
