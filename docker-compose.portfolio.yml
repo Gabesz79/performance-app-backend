@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: perf-portfolio-postgres
+    environment:
+      POSTGRES_DB: performance_db
+      POSTGRES_USER: perf_user
+      POSTGRES_PASSWORD: Perf_1234!
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - perf_portfolio_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U perf_user -d performance_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  perf_portfolio_db_data:
+

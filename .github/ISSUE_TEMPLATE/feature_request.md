@@ -1,18 +1,35 @@
 ---
 name: Feature request
-about: Javasolj új funkciót
+about: Új funkció vagy fejlesztési ötlet
 title: "[FEAT] Rövid cím"
 labels: enhancement
 assignees: ''
 ---
 
-**Probléma/történet**
-Milyen problémát old meg ez a funkció?
+## Probléma / lehetőség
+Mi a mögöttes cél, milyen fájdalompontra adna választ?
 
-**Javasolt megoldás**
-Mit szeretnél, hogyan működjön?
+## Javasolt megoldás
+Mit változtatnál? (API, adatmodell, UI, CLI, batch, stb.)
 
-**Alternatívák**
-Más megközelítések?
+## Alternatívák
+Milyen más megközelítések merültek fel?
 
-**Egyéb megjegyzés**
+## Hatókör / érintett területek
+- [ ] API (controller/service)
+- [ ] DB / Flyway migráció
+- [ ] Security / Auth
+- [ ] Dokumentáció
+- [ ] DevOps / CI
+- [ ] Egyéb: ___
+
+## Elfogadási kritériumok
+- [ ] …
+- [ ] …
+
+## Kockázatok / kompatibilitás
+Breaking change? Migráció szükséges?
+
+## Képernyőkép / vázlat (ha van)
+
+## Kapcsolódó issue/PR/link(ek)
