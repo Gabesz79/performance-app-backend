@@ -1,2 +1,11 @@
-﻿# Minden fájlhoz default tulaj
-*   @Gabesz79
+# Alapértelmezett tulajdonos minden fájlra
+*       @Gabesz79
+
+# GitHub meta / CI
+.github/ @Gabesz79
+
+# Java backend
+src/    @Gabesz79
+
+# Dokumentáció
+*.md    @Gabesz79

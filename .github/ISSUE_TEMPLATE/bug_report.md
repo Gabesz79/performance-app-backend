@@ -1,27 +1,34 @@
 ---
 name: Bug report
-about: Jelents hibát, hogy javíthassuk
+about: Hibajegy létrehozása
 title: "[BUG] Rövid cím"
 labels: bug
 assignees: ''
 ---
 
-**Hiba leírása**
-Mi a probléma?
+## Rövid leírás
+Mi a hiba 1-2 mondatban?
 
-**Reprodukció lépései**
-1. ...
-2. ...
+## Lépések a reprodukáláshoz
+1. …
+2. …
+3. …
+4. …
 
-**Elvárt viselkedés**
-Mi történt volna helyesen?
+## Elvárt viselkedés
+Mi történt volna ideális esetben?
 
-**Képernyőképek / Logok**
-Ha van, csatold ide.
+## Tényleges viselkedés
+Mi történt valójában? (ha lehet, képernyőkép/gif)
 
-**Környezet**
-- OS:
-- Java verzió:
-- Egyéb:
+## Log / konzol kivonat
 
-**Egyéb megjegyzés**
+## Környezet
+- App verzió / commit hash: 
+- Java: 
+- OS: 
+- Docker / Compose (ha érintett): 
+- Profil: (local/dev/portfolio/…)
+
+## Egyéb megjegyzés
+Bármi extra infó, link, issue hivatkozás.

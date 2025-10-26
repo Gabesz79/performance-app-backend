@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/performance_db
+    username: perf_user
+    password: Perf_1234!
+    hikari:
+      max-lifetime: 300000   # 5 perc
+      idle-timeout: 60000    # 1 perc
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  #Demo BasicAuth user az actuator szerephez
+  security:
+    user:
+      name: perf_user
+      password: Perf_1234!
+      roles: ACTUATOR
+
+#Actuator - demo: health + info
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      show-details: when-authorized
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    git:
+      mode: simple   # csak akkor tölt, ha van git.properties
+
+#Swagger/OpenAPI demohoz bekapcs
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+info:
+  app:
+    name: performance-app-backend
+    env: portfolio
+    owner: "you"
+
