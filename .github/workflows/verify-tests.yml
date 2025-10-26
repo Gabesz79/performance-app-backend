@@ -1,0 +1,51 @@
+name: Tests (manual) + JaCoCo
+
+on:
+  workflow_dispatch: {}
+  # Ha szeretnél heti ütemezést is, vedd ki a kommentet:
+  # schedule:
+  #   - cron: "0 3 * * 1"  # hétfő 03:00 UTC
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Run tests + JaCoCo
+        run: ./gradlew -Dorg.gradle.java.home=$JAVA_HOME --no-daemon clean test jacocoTestReport
+
+      - name: Upload JUnit report (HTML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: build/reports/tests/test
+          if-no-files-found: warn
+
+      - name: Upload JaCoCo (HTML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-html
+          path: build/reports/jacoco/test/html
+          if-no-files-found: warn
+
+      - name: Upload JaCoCo (XML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-xml
+          path: build/reports/jacoco/test/jacocoTestReport.xml
+          if-no-files-found: warn
