@@ -38,3 +38,13 @@ Egyszerű Spring Boot alapú backend fitnesz edzések (WorkoutSession) kezelés�
 Részletesen: [docs/er-diagram.md](docs/er-diagram.md)
 
 ---
+
+## Tests (CI & local)
+
+**Prerequisite:** Docker Desktop (WSL2 ajánlott) fusson.  
+**Local:** `./gradlew clean test` – az aktív profil **test** (lásd `src/test/resources/application.properties`), és a **Testcontainers JDBC** (`jdbc:tc:postgresql:16-alpine:///perfdb`) automatikusan indít egy átmeneti PostgreSQL-t. **Nem kell lokális DB.**  
+**CI:** GitHub Actions (Java 21) – workflow: *Tests (manual) + JaCoCo*; feltölti a **JUnit riportot** és a **JaCoCo HTML** lefedettségi riportot.
+
+- ER diagram: [docs/er-diagram.md](docs/er-diagram.md)
+- Actions: [Actions](../../actions)
+
