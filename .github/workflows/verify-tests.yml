@@ -3,24 +3,12 @@ name: Tests (manual) + JaCoCo
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U test -d testdb"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
 
     steps:
       - name: Checkout
@@ -33,23 +21,18 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Run tests + JaCoCo
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
-          SPRING_DATASOURCE_USERNAME: test
-          SPRING_DATASOURCE_PASSWORD: test
-          SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-          SPRING_FLYWAY_ENABLED: true
+      # Csak infó: Docker elérhető a runneren (Testcontainers ezt fogja használni)
+      - name: Docker info
         run: |
-          ./gradlew --no-daemon \
-            -Dspring.profiles.active=test \
-            -Dspring.datasource.url=$SPRING_DATASOURCE_URL \
-            -Dspring.datasource.username=$SPRING_DATASOURCE_USERNAME \
-            -Dspring.datasource.password=$SPRING_DATASOURCE_PASSWORD \
-            clean test jacocoTestReport
+          docker --version
+          docker info -f 'Server: {{.ServerVersion}}'
+
+      - name: Run tests + JaCoCo (with Testcontainers JDBC)
+        env:
+          SPRING_PROFILES_ACTIVE: test
+          # ezek itt nem feltétlen kellenek, de ártani nem ártanak
+          TESTCONTAINERS_CHECKS_DISABLE: 'true'
+        run: ./gradlew --no-daemon clean test jacocoTestReport
 
       - name: Upload JUnit report (HTML)
         if: always()
