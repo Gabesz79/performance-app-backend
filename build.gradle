@@ -49,10 +49,14 @@ dependencies {
     // --- Test ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit 5, Mockito, AssertJ, Spring Test
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // IDE futtatáshoz hasznos
-    testImplementation 'org.testcontainers:postgresql'
+    testImplementation platform("org.testcontainers:testcontainers-bom:1.20.2")
+    testImplementation "org.testcontainers:junit-jupiter"
+    testImplementation "org.testcontainers:postgresql"
+    testImplementation "org.testcontainers:jdbc"
+    testImplementation "org.postgresql:postgresql"
+    testRuntimeOnly "org.postgresql:postgresql"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -61,6 +65,8 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.named('test') {
     useJUnitPlatform()
+    // GARANTÁLJUK, hogy a 'test' profil menjen a JUnit alatt:
+    systemProperty 'spring.profiles.active', 'test'
     finalizedBy jacocoTestReport
 }
 
@@ -94,5 +100,15 @@ configurations.all {
             d.useVersion '2.7.0'
         }
     }
+}
+
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    systemProperty 'spring.profiles.active', 'test'
+    systemProperty 'spring.datasource.url', 'jdbc:tc:postgresql:16-alpine:///perfdb'
+    systemProperty 'spring.datasource.username', 'test'
+    systemProperty 'spring.datasource.password', 'test'
+    systemProperty 'java.net.preferIPv4Stack', 'true'
 }
 
