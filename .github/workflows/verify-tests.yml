@@ -37,7 +37,7 @@ jobs:
 
       - name: Upload JUnit report (HTML)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: junit-report
           path: build/reports/tests/test
@@ -45,7 +45,7 @@ jobs:
 
       - name: Upload JaCoCo (HTML)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: jacoco-report
           path: build/reports/jacoco/test/html
