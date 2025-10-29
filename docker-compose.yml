@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: perf_user
       POSTGRES_PASSWORD: "Perf_1234!"
     ports:
-      - "5432:5432"
+      - "${PG_PORT:-5432}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:

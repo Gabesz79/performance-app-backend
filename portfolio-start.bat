@@ -1,6 +1,13 @@
 @echo off
 setlocal EnableExtensions
 
+set "PG_PORT=5433"
+for /f "tokens=*" %%A in ('powershell -NoProfile -Command "if ((Get-NetTCPConnection -LocalPort %PG_PORT% -State Listen -ErrorAction SilentlyContinue)) { 'BUSY' }"') do set "PORT_STATUS=%%A"
+if "%PORT_STATUS%"=="BUSY" (
+  echo [HIBA] A %PG_PORT% port foglalt. Zarj be mas Postgrest vagy valassz masik portot!
+  exit /b 1
+)
+
 rem ===== Base config =====
 set "PROFILE=portfolio"
 set "PORT=8084"

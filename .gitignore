@@ -10,23 +10,22 @@
 .idea/
 *.iml
 .vscode/
-
 # Log/Temp
 *.log
 *.tmp
 *.swp
-
 # OS
 .DS_Store
 Thumbs.db
-
 # Backup
 *.bak
 artifacts/
 .run/
 .gradle-j21/
 .gradle-jdk/
-
 # CI/CodeQL local logs
 codeql-*.txt
 codeql_*.txt
+.secrets-local.properties
+.secrets-local.properties
+*.OFF
