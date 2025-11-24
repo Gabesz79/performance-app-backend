@@ -51,7 +51,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // IDE futtatáshoz hasznos
-    testImplementation platform("org.testcontainers:testcontainers-bom:1.20.2")
+    testImplementation platform("org.testcontainers:testcontainers-bom:2.0.2")
     testImplementation "org.testcontainers:junit-jupiter"
     testImplementation "org.testcontainers:postgresql"
     testImplementation "org.testcontainers:jdbc"
